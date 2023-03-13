@@ -1,7 +1,7 @@
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js";
-  import { getFirestore, addDoc,collection } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+  import { getFirestore, addDoc,collection,getDocs } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -26,7 +26,7 @@
   
 
 
-  console.log("firebase app",db)
+
 
   //Reference messages Collection
 //    var messagesRef = firebase.database().ref("messages");
@@ -40,41 +40,62 @@ window.addEventListener("load",function(){
 })
 
 
-//Blog item filter
+// Get Projects from Firebase Collection
 
-const filterContainerblog = document.querySelector('.blog-filter');
-const filterBtnsBlog = filterContainerblog.children;
+let ProjectParentContainer = document.getElementById("ProjectsParentContainer")
+let ProjectInnerDiv = ``
+const querySnapshot = await getDocs(collection(db, "projects"));
+let ProjectsData = []
 
-const totalFilterBtnsBlog = filterBtnsBlog.length;
-const blogItems= document.querySelectorAll(".blog-item");
-const blogItemsTotal = blogItems.length;
+querySnapshot.forEach(doc=>{
+  ProjectsData.push(doc.data())
+})
 
 
+ProjectsData.reverse().forEach((doc) => {
+  // doc.data() is never undefined for query doc snapshots
+ 
 
-for(let i=0 ; i<totalFilterBtnsBlog ; i++){
-    filterBtnsBlog[i].addEventListener("click", function(){
-        filterContainerblog.querySelector(".active").classList.remove("active");
-        this.classList.add("active");
+    // Creating Project Divs
 
-        const blogFilterValue = this.getAttribute("data-filter")
-        for(let j = 0; j<blogItemsTotal; j++){
-            if(blogFilterValue === blogItems[j].getAttribute("data-category")){
-                blogItems[j].classList.remove("hide");
-                blogItems[j].classList.add("show");
-            }
-            else{
-                blogItems[j].classList.remove("show");
-                blogItems[j].classList.add("hide");
-            }
-            if(blogFilterValue === "all"){
-                blogItems[j].classList.remove("hide");
-                blogItems[j].classList.add("show");
-            }
-        }
+    ProjectInnerDiv += `
+    <div class="blog-item pad-15" >
+      <div class="blog-item-inner shadow-dark">
+        <div class="blog-image">
+          <img src="${doc.ProjectImage}" alt="blog">
+          
+          <div class="blog-date" >
+          
+            <a href="${doc.ProjectLiveLink
+            }" target="_blank">Visit Site</a>
+          </div>
+        </div>
+        <div class="blog-info">
+          <h4 class="blog-title">${doc.ProjectTitle}</h4>
+          <p class="blog-description">${doc.ProjectDescription}</p>
+          <p class="blog-description"><strong>Features</strong> : ${doc.Features}</p>
+          <p class="blog-tag">Tags : ${getProjectTags(doc.Tags)} </p>
+          <p class="blog-tag">Github :  <a href="${doc.ProjectGithubLink
+          }" target="_blank">View Code</a> </p>
+        </div>
+      </div>
+    </div>
+    `
 
-    })
+});
+
+ProjectParentContainer.innerHTML = ProjectInnerDiv
+
+
+function getProjectTags(arr){
+  let tagsOutput = ''
+
+  arr.forEach(tag=>{
+    tagsOutput += `<a href="#" style="margin-right:10px;" >${tag}</a>`
+  })
+
+  return tagsOutput
 }
-
 
 
 
