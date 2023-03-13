@@ -1,0 +1,41 @@
+.aside .logo a::before {
+  border-top: 4px solid #45f3ff;
+  border-left: 4px solid #45f3ff;
+}
+.aside .logo a::after {
+  border-bottom: 4px solid #45f3ff;
+  border-right: 4px solid #45f3ff;
+}
+
+.aside .nav li a:hover,
+.blog .blog-filter button.active,
+body.light .blog .blog-filter button.active,
+.aside .nav li a.active,
+body.dark .aside .nav li a.active,
+body.dark .aside .nav li a:hover,
+.contact .contact-info-item .icon .fa,
+.blog .blog-item .blog-info .blog-tag a,
+.about .about-content .about-text h3 span,
+.skills .skill-item .skill-item-inner .icon .fa,
+.skills .skill-item-inner .text-heading,
+.home .intro .text-zone-Home .blast:hover {
+  color: #45f3ff;
+}
+.btn,
+.about .about-content .timeline .circle-dot,
+.about .about-content .timeline .timeline-item::before,
+.about .about-content .skills .skill-item .progress .progress-in,
+.aside .nav-toggler span,
+.section-title h2::before,
+.section-title h2::after,
+.aside .nav-toggler span::before,
+.aside .nav-toggler span::after,
+.home .intro .social-links a,
+.skills .skill-item .skill-item-inner:hover .icon,
+.blog .blog-item-inner .blog-image .blog-date {
+  background-color: #45f3ff;
+}
+
+.blog .blog-filter button.active {
+  border-color: #45f3ff;
+}
